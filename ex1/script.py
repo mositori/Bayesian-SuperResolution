@@ -14,6 +14,7 @@ def generatePMatrix():
   
   return _temp
 
+
 # Generating P matrix
 # @type numpy.array
 print("Start to generate P matrix")
