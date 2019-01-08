@@ -1,29 +1,19 @@
 import numpy as np
-import itertools as iter
-#from keras.layers import Input, Dense
-#from keras.models import Model
-#import tensorflow as tf
+import pandas as pd
+import matplotlib.pyplot as plt
 
-# @return P matrix
-def generatePMatrix():
-  _temp = np.zeros((2 ** 9,3,3))
-  _count = 0
-  for p_11, p_12, p_13, p_21, p_22, p_23, p_31, p_32, p_33 in iter.product([0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1],[0,1]):
-    _temp[_count] = np.array([[p_11, p_12, p_13],[p_21, p_22, p_23],[p_31, p_32, p_33]]) 
-    _count += 1
-  
-  return _temp
+import tensorflow as tf
 
+from tensorflow import keras
+from keras.models import Sequential
+from keras.layers import Dense, Activation
 
-# Generating P matrix
-# @type numpy.array
-print("Start to generate P matrix")
-P_matrix = generatePMatrix()
-print("Generated P matrix shaped " + str(P_matrix.shape))
+input_data_path="4x4matrix.csv"
 
+p_matrix = np.array(pd.read_csv(input_data_path, index_col=0).iloc[:100,0:16])
+q_matrix = np.array(pd.read_csv(input_data_path, index_col=0).iloc[:100,16:])
+model = Sequential()
+model.add( Dense(16, activation = 'relu', input_dim = 9) )
+model.compile(optimizer = 'rmsprop',loss='categorical_crossentropy',metrics = ['accuracy'])
 
-# P matrix into Q matrix
-
-
-
-#autoencoder = Model(input_img,encoded)
+model.fit(q_matrix, p_matrix,epochs = 4)
