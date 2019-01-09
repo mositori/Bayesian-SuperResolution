@@ -10,10 +10,11 @@ from keras.layers import Dense, Activation
 
 input_data_path="4x4matrix.csv"
 
-p_matrix = np.array(pd.read_csv(input_data_path, index_col=0).iloc[:100,0:16])
-q_matrix = np.array(pd.read_csv(input_data_path, index_col=0).iloc[:100,16:])
+p_matrix = np.array(pd.read_csv(input_data_path, index_col=0).iloc[:,0:16])
+q_matrix = np.array(pd.read_csv(input_data_path, index_col=0).iloc[:,16:])
 model = Sequential()
 model.add( Dense(16, activation = 'relu', input_dim = 9) )
+model.add( Dense(16, activation = 'relu') )
 model.compile(optimizer = 'rmsprop',loss='categorical_crossentropy',metrics = ['accuracy'])
 
-model.fit(q_matrix, p_matrix,epochs = 4)
+model.fit(q_matrix, p_matrix,epochs = 20)
